@@ -1,24 +1,42 @@
-import Detail from './pages/Detail'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css'
-import Home from './pages/Home'
-import { Routes,Route,BrowserRouter } from 'react-router-dom'
-import DiaryEditor from './components/DiaryEditor'
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Detail from './pages/Detail';
+import DiaryEditor from './components/DiaryEditor';
+import axios from 'axios';
+
+
+// ✅ Bootstrap Container 추가
+import Container from 'react-bootstrap/Container';
 
 function App() {
+    const [allDiaries, setAllDiaries] = useState([]); // ✅ 전체 일기 데이터
 
+    useEffect(() => {
+        try {
+            const fetchData = async () => {
+                const response = await axios.get('/data/diarys.json');
+                const data = response.data.diarys;
+                setAllDiaries(data);
+            };
+            fetchData();
+        } catch (error) {
+            console.error('데이터 로딩 실패:', error);
+        }
+    }, []);
 
-  return (
-    <div className='container'>
-      <BrowserRouter>
-        <Routes>
-        <Route path='/' element={<Home />}  />
-        <Route path="/diary/:id" element={<Detail />} /> {/* 상세 페이지 경로 추가 */}
-        <Route path="/editor" element={<DiaryEditor />} /> 
-        </Routes>
-      </BrowserRouter>
-    </div>
-  )
+    return (
+        <Container> {/* ✅ Bootstrap의 Container 사용 */}
+            <BrowserRouter>
+                <Routes>
+                    {/* ✅ `allDiaries`와 `setAllDiaries`를 Detail에 전달 */}
+                    <Route path="/" element={<Home allDiaries={allDiaries} setAllDiaries={setAllDiaries} />} />
+                    <Route path="/diary/:id" element={<Detail allDiaries={allDiaries} setAllDiaries={setAllDiaries} />} />
+                    <Route path="/editor" element={<DiaryEditor setAllDiaries={setAllDiaries} />} />
+                </Routes>
+            </BrowserRouter>
+        </Container> 
+    );
 }
 
-export default App
+export default App;
