@@ -40,49 +40,51 @@ const Home = ({ allDiaries, setAllDiaries }) => { // ✅ setAllDiaries 추가
 
     return (
         <>
-            <div className="write-btn">
-                <Button onClick={handleClickEditor} variant="outline-secondary">
-                    글쓰기
-                </Button>
+            <div className="home-top">
+                <div className="diary-date">
+                    <p className="btn-prev"><button onClick={handleClickDecreseMonth}>이전달</button></p>
+                    <h2>{head_title}</h2>
+                    <p className="btn-next"><button onClick={handleClickIncreaseMonth}>다음달</button></p>
+                </div>
+                <div className="write-btn">
+                    <Button onClick={handleClickEditor} variant="outline-secondary">
+                        글쓰기
+                    </Button>
+                </div>
             </div>
-            <div className="diary-date">
-                <button onClick={handleClickDecreseMonth}>이전달</button>
-                {head_title}
-                <button onClick={handleClickIncreaseMonth}>다음달</button>
-            </div>
-
-            {diaryData.length > 0 ? (
-                diaryData.map((diary) => {
-                    const date = new Date(diary.diarydate).toLocaleDateString();
-                    return (
-                        <div className="container">
+            <div className="diary-wrap">
+                {diaryData.length > 0 ? (
+                    diaryData.map((diary) => {
+                        const date = new Date(diary.diarydate).toLocaleDateString();
+                        return (
                             <div key={diary.id} className="diarybox">
                                 <Link to={`/diary/${diary.id}`} className="diary-link">
-                                    <div className="photo-title">
+                                    <div className="profile-date">
                                         <div className="profile">
-                                            <img src={diary.user.photo} alt="profile" />
-                                            <p>{diary.user.name}</p>
+                                            <p className="photo"><img src={diary.user.photo} alt="profile" /></p>
+                                            <p className="name">{diary.user.name}</p>
                                         </div>
-                                        <div>
-                                            <div className="titleanddate">
-                                                <h4>{diary.title.length > 10 ? diary.title.slice(0, 10) + "..." : diary.title}</h4>
-                                                <p className="date-style">{date}</p>
-                                            </div>
-                                            <p className="small-title">
-                                                {diary.diarymemo.length > 20 ? diary.diarymemo.slice(0, 20) + "..." : diary.diarymemo}
-                                            </p>
-                                        </div>
+                                        <div className="date-style">{date}</div>
+                                    </div>
+                                    <div className="diary-list-photo">
+                                        <img src={diary.diaryphoto} />
+                                    </div>
+                                    <div className="photo-title">
+                                        <h3>{diary.title.length > 10 ? diary.title.slice(0, 10) + "..." : diary.title}</h3>
+                                        <p className="small-title">
+                                            {diary.diarymemo.length > 20 ? diary.diarymemo.slice(0, 20) + "..." : diary.diarymemo}
+                                        </p>
                                     </div>
                                 </Link>
                                 {/* ✅ 삭제 버튼 추가 */}
-                                <button className="exbtn" onClick={() => handleDelete(diary.id)}>x</button>
+                                <p className="exbtn"><button onClick={() => handleDelete(diary.id)}>x</button></p>
                             </div>
-                        </div>    
-                    );
-                })
-            ) : (
-                <p>데이터가 없습니다.</p>
-            )}
+                        );
+                    })
+                ) : (
+                    <p>데이터가 없습니다.</p>
+                )}
+            </div>
         </>
     );
 };

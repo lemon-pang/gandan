@@ -5,8 +5,8 @@ import "./Detail.css";
 const Detail = ({ allDiaries, setAllDiaries }) => {
     const { id } = useParams();
     const [diary, setDiary] = useState(null);
-    const [comment, setComment] = useState(""); 
-    const [comments, setComments] = useState([]); 
+    const [comment, setComment] = useState("");
+    const [comments, setComments] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [editedText, setEditedText] = useState("");
     const [editedImage, setEditedImage] = useState("");
@@ -88,43 +88,50 @@ const Detail = ({ allDiaries, setAllDiaries }) => {
         <div className="diary-detail">
             <div className="detail-inner">
                 <h1 className="titlecss">{diary.title}</h1>
-                
-                {/* ✅ 수정 버튼 (편집 모드 전환) */}
-                {!isEditing ? (
-                    <button onClick={handleEdit}>수정하기</button>
-                ) : (
-                    <button onClick={handleSaveEdit}>저장</button>
-                )}
-
-                <p><strong>작성자:</strong> {diary.user.name}</p>
-                <p><strong>작성 날짜:</strong> {new Date(diary.diarydate).toLocaleDateString()}</p>
-
-                {/* ✅ 사진 수정 */}
-                {isEditing ? (
-                    <div>
-                        <input type="file" accept="image/*" onChange={handleImageChange} />
-                        {editedImage && <img src={editedImage} alt="미리보기" className="diary-photo" />}
+                <div className="diary-info">
+                    <div className="info">
+                        <p><strong>작성자:</strong> {diary.user.name}</p>
+                        <p><strong>작성 날짜:</strong> {new Date(diary.diarydate).toLocaleDateString()}</p>
                     </div>
-                ) : (
-                    diary.diaryphoto && <img src={diary.diaryphoto} alt="diary" className="diary-photo" />
-                )}
 
-                {/* ✅ 글 수정 */}
-                {isEditing ? (
-                    <textarea
-                        value={editedText}
-                        onChange={(e) => setEditedText(e.target.value)}
-                        className="edit-textarea"
-                    />
-                ) : (
-                    <p className="diarymemo">{diary.diarymemo}</p>
-                )}
+                    {/* ✅ 수정 버튼 (편집 모드 전환) */}
+                    {!isEditing ? (
+                        <button onClick={handleEdit}>수정하기</button>
+                    ) : (
+                        <button onClick={handleSaveEdit}>저장</button>
+                    )}
+                </div>
+                <div className="diary-photo">
+                    {/* ✅ 사진 수정 */}
+                    {isEditing ? (
+                        <>
+                            <input type="file" accept="image/*" onChange={handleImageChange} />
+                            {editedImage && <img src={editedImage} alt="미리보기" />}
+                        </>
+                    ) : (
+                        diary.diaryphoto && <img src={diary.diaryphoto} alt="diary" />
+                    )}
+                </div>
+                <div className="diarymemo">
+                    {/* ✅ 글 수정 */}
+                    {isEditing ? (
+                        <textarea
+                            value={editedText}
+                            onChange={(e) => setEditedText(e.target.value)}
+                            className="edit-textarea"
+                        />
+                    ) : (
+                        <p>{diary.diarymemo}</p>
+                    )}
+                </div>
 
                 {/* ✅ 댓글 리스트 */}
-                <h3>댓글</h3>
+                <h3 className="comment-title">댓글</h3>
                 <ul className="comment-list">
                     {comments.length > 0 ? (
-                        comments.map((cmt, index) => <li key={index}>{cmt}</li>)
+                        comments.map((cmt, index) => <li key={index}>
+                            <p className="cmt">{cmt}</p>
+                        </li>)
                     ) : (
                         <li>댓글 없음</li>
                     )}
@@ -141,10 +148,11 @@ const Detail = ({ allDiaries, setAllDiaries }) => {
                     {/* ✅ onClick 추가해서 댓글 저장 가능하게 변경 */}
                     <button onClick={handleCommentSubmit}>등록</button>
                 </div>
+
+                {/* ✅ 홈으로 돌아가기 */}
+                <div className="go-home"><Link to="/">홈으로 돌아가기</Link></div>
             </div>
 
-            {/* ✅ 홈으로 돌아가기 */}
-            <Link to="/">홈으로 돌아가기</Link>
         </div>
     );
 };

@@ -4,10 +4,8 @@ import Home from './pages/Home';
 import Detail from './pages/Detail';
 import DiaryEditor from './components/DiaryEditor';
 import axios from 'axios';
+import './App.css';
 
-
-// ✅ Bootstrap Container 추가
-import Container from 'react-bootstrap/Container';
 
 function App() {
     const [allDiaries, setAllDiaries] = useState([]); // ✅ 전체 일기 데이터
@@ -26,7 +24,7 @@ function App() {
     }, []);
 
     return (
-        <Container> {/* ✅ Bootstrap의 Container 사용 */}
+        <div className='container'>
             <BrowserRouter>
                 <Routes>
                     {/* ✅ `allDiaries`와 `setAllDiaries`를 Detail에 전달 */}
@@ -35,7 +33,7 @@ function App() {
                     <Route path="/editor" element={<DiaryEditor setAllDiaries={setAllDiaries} />} />
                 </Routes>
             </BrowserRouter>
-        </Container> 
+        </div>
     );
 }
 

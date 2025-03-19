@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Noto Sans KR", serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #101010;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+input {
+    vertical-align: top;
+    font-family: "Noto Sans KR", serif;
+}
+
+button {
+    vertical-align: top;
+    font-family: "Noto Sans KR", serif;
+    cursor: pointer;
+}
